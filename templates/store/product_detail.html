@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="detail-layout">
+    <div class="detail-image">
+        <img src="{{ product.display_image_url }}" alt="{{ product.name }}">
+    </div>
+    <div class="detail-info">
+        <h1>{{ product.name }}</h1>
+        <p class="price">₹{{ product.price }}</p>
+        <p>{{ product.description }}</p>
+        <div class="detail-meta">
+            <span><strong>Category:</strong> {{ product.category.name }}</span>
+            <span><strong>In stock:</strong> {{ product.stock }}</span>
+        </div>
+        <div class="detail-actions">
+            <a class="btn btn-primary" href="{% url 'add_to_cart' product.id %}">Add to cart</a>
+            <a class="btn btn-secondary" href="{% url 'product_list' %}">Back to shop</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

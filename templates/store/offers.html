@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="offers-hero">
+    <div class="offers-copy">
+        <p class="eyebrow">Limited-time deal</p>
+        <h1>Shop the new season</h1>
+        <p>Explore handpicked favorites, trending essentials, and bright upgrades for your everyday routine.</p>
+        <div class="offers-actions">
+            <a class="btn btn-primary" href="{% url 'product_list' %}">Browse products</a>
+            <a class="btn btn-secondary" href="{% url 'home' %}">Back home</a>
+        </div>
+    </div>
+    <div class="offers-card">
+        <img src="{% static 'images/offer-banner.svg' %}" alt="Seasonal offers">
+    </div>
+</section>
+
+{% if featured_products %}
+<section class="section top-offer-banner">
+    {% with featured_products.0 as top_offer %}
+    <div class="top-offer-card">
+        <div class="top-offer-image">
+            <img src="{{ top_offer.display_image_url }}" alt="{{ top_offer.name }}">
+        </div>
+        <div class="top-offer-details">
+            <p class="eyebrow">Top offer</p>
+            <h2>{{ top_offer.name }}</h2>
+            <p>{{ top_offer.description|truncatewords:25 }}</p>
+            <div class="top-offer-meta">
+                <span class="price-pill">₹{{ top_offer.price }}</span>
+                <a class="btn btn-primary" href="{% url 'add_to_cart' top_offer.id %}">Order now</a>
+                <a class="btn btn-secondary" href="{{ top_offer.get_absolute_url }}">View deal</a>
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="section-header">
+        <h2>Featured offers</h2>
+    </div>
+    <div class="product-grid">
+        {% for product in featured_products %}
+            <article class="card product-showcase">
+                <div class="card-image">
+                    <div class="image-frame">
+                        <img src="{{ product.display_image_url }}" alt="{{ product.name }}">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:18 }}</p>
+                    <div class="card-footer">
+                        <span>₹{{ product.price }}</span>
+                        <div class="offer-actions">
+                            <a class="btn btn-secondary" href="{{ product.get_absolute_url }}">View</a>
+                            <a class="btn btn-primary" href="{% url 'add_to_cart' product.id %}">Order now</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p>No featured products yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

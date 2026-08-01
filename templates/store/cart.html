@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h2>Your cart</h2>
+            <p class="section-subtitle">Review your items and update quantity before checkout.</p>
+        </div>
+        {% if cart.items.exists %}
+            <a class="btn btn-primary" href="{% url 'checkout' %}">Proceed to checkout</a>
+        {% endif %}
+    </div>
+
+    {% if cart.items.exists %}
+        <div class="cart-list">
+            {% for item in cart.items.all %}
+                <div class="cart-item">
+                    <div>
+                        <h3>{{ item.product.name }}</h3>
+                        <p>₹{{ item.product.price }} each</p>
+                    </div>
+                    <form class="cart-quantity-form" method="post" action="{% url 'update_cart' item.id %}">
+                        {% csrf_token %}
+                        <label class="visually-hidden" for="quantity-{{ item.id }}">Quantity</label>
+                        <input id="quantity-{{ item.id }}" type="number" name="quantity" min="1" value="{{ item.quantity }}">
+                        <button class="btn btn-secondary" type="submit">Update</button>
+                    </form>
+                    <a class="btn btn-danger" href="{% url 'remove_from_cart' item.id %}">Remove</a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="summary-card">
+            <h3>Subtotal</h3>
+            <p>₹{{ cart.subtotal }}</p>
+        </div>
+    {% else %}
+        <p>Your cart is empty. Start shopping to fill it up.</p>
+    {% endif %}
+</section>
+{% endblock %}

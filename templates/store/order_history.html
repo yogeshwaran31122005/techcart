@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+    <h2>Your orders</h2>
+    {% for order in orders %}
+        <div class="summary-card">
+            <h3>Order #{{ order.id }} — {{ order.status }}</h3>
+            <p>{{ order.created_at }}</p>
+            {% for item in order.items.all %}
+                <p>{{ item.quantity }} x {{ item.product.name }} — ₹{{ item.total_price }}</p>
+            {% endfor %}
+            <p><strong>Total:</strong> ₹{{ order.total }}</p>
+        </div>
+    {% empty %}
+        <p>You have not placed any orders yet.</p>
+    {% endfor %}
+</section>
+{% endblock %}

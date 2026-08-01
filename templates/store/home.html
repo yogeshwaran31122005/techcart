@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Smart shopping starts here</p>
+        <h1>Welcome to TechCart</h1>
+        <p>Discover the latest gadgets, must-have essentials, and everyday favorites in one beautiful shop.</p>
+        <form class="hero-search" method="get" action="{% url 'product_list' %}">
+            <span class="search-icon" aria-hidden="true">🔍</span>
+            <input type="text" name="q" placeholder="Search for products, brands and more">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="{% url 'product_list' %}">Shop Now</a>
+            <a class="btn btn-secondary hero-inline-btn" href="{% url 'offers' %}">View Deals</a>
+        </div>
+    </div>
+    <div class="hero-card hero-3d-card" id="hero-3d-card">
+        <div class="hero-orb"></div>
+        <div class="hero-3d-grid"></div>
+        <div class="hero-panel">
+            <h3>Fresh arrivals</h3>
+            <p>Responsive design, fast checkout, and hand-picked products with delivery in no time.</p>
+            <div class="hero-highlight">
+                <span>Free delivery</span>
+                <span>Easy returns</span>
+                <span>24/7 support</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section feature-section">
+    <div class="section-header">
+        <h2>All TechCart features</h2>
+    </div>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast delivery</h3>
+            <p>Shop with confidence and get your order quickly using our reliable shipping network.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure checkout</h3>
+            <p>Encrypted payment flow and trusted checkout make every purchase safe and smooth.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3>Curated selection</h3>
+            <p>Handpicked products from top brands and trending gadgets for the modern shopper.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">↩️</div>
+            <h3>Easy returns</h3>
+            <p>Hassle-free returns and friendly support so you can shop without worry.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Featured products</h2>
+        <a href="{% url 'product_list' %}">View all</a>
+    </div>
+    <div class="product-grid">
+        {% for product in featured_products %}
+            <article class="card product-showcase">
+                <div class="card-image">
+                    <div class="image-frame">
+                        <img src="{{ product.display_image_url }}" alt="{{ product.name }}">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:18 }}</p>
+                    <div class="card-footer">
+                        <span class="price-pill">₹{{ product.price }}</span>
+                        <a class="btn btn-secondary" href="{{ product.get_absolute_url }}">View</a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p>No featured products yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>More products</h2>
+        <a href="{% url 'product_list' %}">Browse all</a>
+    </div>
+    <div class="product-grid">
+        {% for product in more_products %}
+            <article class="card product-showcase">
+                <div class="card-image">
+                    <div class="image-frame">
+                        <img src="{{ product.display_image_url }}" alt="{{ product.name }}">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:18 }}</p>
+                    <div class="card-footer">
+                        <span class="price-pill">₹{{ product.price }}</span>
+                        <a class="btn btn-secondary" href="{{ product.get_absolute_url }}">View</a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p>No more products available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-header">
+        <h2>Browse by category</h2>
+    </div>
+    <div class="category-list">
+        {% for category in categories %}
+            <a class="chip" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+        {% empty %}
+            <p>No categories available yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

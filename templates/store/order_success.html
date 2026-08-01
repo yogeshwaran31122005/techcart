@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+    <h2>Order confirmed</h2>
+    <p>Thank you, {{ order.first_name }}! Your order #{{ order.id }} has been placed.</p>
+    <a class="btn btn-primary" href="{% url 'order_history' %}">View your orders</a>
+</section>
+{% endblock %}

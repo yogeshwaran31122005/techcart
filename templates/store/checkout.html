@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section form-layout">
+    <div class="form-card">
+        <h2>Checkout</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Place order</button>
+        </form>
+    </div>
+    <div class="summary-card">
+        <h3>Order summary</h3>
+        {% for item in cart.items.all %}
+            <p>{{ item.quantity }} x {{ item.product.name }} — ₹{{ item.total_price }}</p>
+        {% empty %}
+            <p>Your cart is empty.</p>
+        {% endfor %}
+        <p><strong>Total:</strong> ₹{{ cart.subtotal }}</p>
+    </div>
+</section>
+{% endblock %}

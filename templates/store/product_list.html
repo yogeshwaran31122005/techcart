@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+    <div class="section-header">
+        <div>
+            <h2>Products</h2>
+            <p class="section-subtitle">Quickly browse categories or search for the perfect product.</p>
+        </div>
+        <form class="search-form" method="get">
+            <input type="text" name="q" value="{{ query|default_if_none:'' }}" placeholder="Search products">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="category-list">
+        <a class="chip {% if not selected_category %}active{% endif %}" href="{% url 'product_list' %}">All</a>
+        {% for category in categories %}
+            <a class="chip {% if selected_category == category.slug %}active{% endif %}" href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+
+    <div class="product-grid">
+        {% for product in products %}
+            <article class="card">
+                <div class="card-image">
+                    <img src="{{ product.display_image_url }}" alt="{{ product.name }}">
+                </div>
+                <div class="card-body">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description|truncatewords:20 }}</p>
+                    <div class="card-footer">
+                        <span class="product-price">₹{{ product.price }}</span>
+                        <a class="btn btn-secondary" href="{{ product.get_absolute_url }}">View details</a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <p>No products matched your search.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

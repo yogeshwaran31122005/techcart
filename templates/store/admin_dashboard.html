@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="section">
+    <h2>Admin dashboard</h2>
+    <div class="summary-card">
+        <h3>Latest orders</h3>
+        {% for order in orders %}
+            <p>#{{ order.id }} — {{ order.user }} — {{ order.status }}</p>
+        {% empty %}
+            <p>No orders yet.</p>
+        {% endfor %}
+    </div>
+    <div class="summary-card">
+        <h3>Products</h3>
+        {% for product in products %}
+            <p>{{ product.name }} — ₹{{ product.price }}</p>
+        {% empty %}
+            <p>No products yet.</p>
+        {% endfor %}
+    </div>
+    <div class="summary-card">
+        <h3>Users</h3>
+        {% for user in users %}
+            <p>{{ user.username }} — {{ user.email }}</p>
+        {% empty %}
+            <p>No users yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
